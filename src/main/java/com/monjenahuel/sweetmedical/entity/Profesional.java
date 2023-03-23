@@ -25,11 +25,23 @@ public class Profesional {
 
     String matricula;
 
-    @ManyToMany
-    @JsonBackReference //Evita la recursion cediendo el atributo a la otra parte
-    @JoinTable(name = "especialidades_profesionales", joinColumns = @JoinColumn(name = "id_profesional", referencedColumnName = "id_profesional"), inverseJoinColumns = @JoinColumn(name = "id_especialidad", referencedColumnName = "id_especialidad"))
-    private Set<Especialidad> especialidades = new HashSet<>();
 
+//    @ManyToMany
+//    @JsonBackReference //Evita la recursion cediendo el atributo a la otra parte
+//    @JoinTable(name = "especialidades_profesionales", joinColumns = @JoinColumn(name = "id_profesional", referencedColumnName = "id_profesional"), inverseJoinColumns = @JoinColumn(name = "id_especialidad", referencedColumnName = "id_especialidad"))
+//    private Set<Especialidad> especialidades = new HashSet<>();
+
+    @OneToMany(mappedBy = "profesional")
+    @JsonBackReference //Evita la recursion cediendo el atributo a la otra parte
+    private Set<Especialidad_Profesional> especialidades = new HashSet<>();
+
+    public Set<Especialidad_Profesional> getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(Set<Especialidad_Profesional> especialidades) {
+        this.especialidades = especialidades;
+    }
 
     public Profesional() {
     }
@@ -66,11 +78,11 @@ public class Profesional {
         this.matricula = matricula;
     }
 
-    public Set<Especialidad> getEspecialidades() {
-        return especialidades;
-    }
-
-    public void setEspecialidades(Set<Especialidad> especialidades) {
-        this.especialidades = especialidades;
-    }
+//    public Set<Especialidad> getEspecialidades() {
+//        return especialidades;
+//    }
+//
+//    public void setEspecialidades(Set<Especialidad> especialidades) {
+//        this.especialidades = especialidades;
+//    }
 }

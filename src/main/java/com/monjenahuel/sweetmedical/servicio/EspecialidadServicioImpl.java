@@ -29,7 +29,10 @@ public class EspecialidadServicioImpl implements EspecialidadServicio{
         return repositorio.buscarPorNombre(nombre);
     }
 
-
+    @Override
+    public Especialidad getEspecialidadByIDIntermedia(Integer id) {
+        return repositorio.especialidadByJoinTableID(id);
+    }
 
 
 }

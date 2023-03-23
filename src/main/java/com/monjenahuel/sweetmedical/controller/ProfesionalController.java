@@ -1,7 +1,9 @@
 package com.monjenahuel.sweetmedical.controller;
 
 import com.monjenahuel.sweetmedical.entity.Profesional;
+import com.monjenahuel.sweetmedical.repositorio.ProfesionalRepository;
 import com.monjenahuel.sweetmedical.servicio.ProfesionalServicio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,11 @@ public class ProfesionalController {
     @GetMapping("/{id}")
     public List getEProfesionalByID(@PathVariable Integer id){
         return Collections.singletonList(servicio.getProfesionalByID(id));
+    }
+
+    @GetMapping("/especialidad/{id}")
+    public List<Profesional> getProfesionalesConEspID(@PathVariable Integer id){
+        return servicio.getProfesionalesConEspID(id);
     }
 
 }

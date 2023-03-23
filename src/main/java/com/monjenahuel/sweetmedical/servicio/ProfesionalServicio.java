@@ -12,4 +12,6 @@ public interface ProfesionalServicio {
 
     public Optional<Profesional> getProfesionalByID(Integer id);
 
+    public List<Profesional> getProfesionalesConEspID(Integer id);
+
 }

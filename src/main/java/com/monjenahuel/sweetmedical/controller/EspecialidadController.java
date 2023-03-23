@@ -1,5 +1,6 @@
 package com.monjenahuel.sweetmedical.controller;
 
+import com.monjenahuel.sweetmedical.entity.Especialidad;
 import com.monjenahuel.sweetmedical.repositorio.EspecialidadRepository;
 import com.monjenahuel.sweetmedical.servicio.EspecialidadServicio;
 import com.monjenahuel.sweetmedical.servicio.UsuarioServicio;
@@ -21,6 +22,7 @@ public class EspecialidadController {
         this.servicio = servicio;
     }
 
+
     @GetMapping
     public List getAllEspecialidades(@RequestParam(name = "name",required = false) String  nombre){
         if(nombre != null){
@@ -33,6 +35,11 @@ public class EspecialidadController {
     @GetMapping("/{id}")
     public List getEspecialidadByID(@PathVariable Integer id){
         return Collections.singletonList(servicio.getEspecialidadByID(id));
+    }
+
+    @GetMapping("/join/{id}")
+    public Especialidad getEspecialidadByIDIntermedia(@PathVariable Integer id){
+        return servicio.getEspecialidadByIDIntermedia(id);
     }
 
 }

@@ -12,4 +12,6 @@ public interface EspecialidadServicio {
     public Optional<Especialidad> getEspecialidadByID(Integer id);
 
     public Optional<Especialidad> getEspecialidadByNombre(String nombre);
+
+    Especialidad getEspecialidadByIDIntermedia(Integer id);
 }

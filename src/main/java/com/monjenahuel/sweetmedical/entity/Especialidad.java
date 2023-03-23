@@ -1,6 +1,7 @@
 package com.monjenahuel.sweetmedical.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -19,10 +20,6 @@ public class Especialidad {
     @NotNull
     @Column(name = "nombre",nullable = false, unique = true)
     String nombre;
-
-    @ManyToMany
-    @JoinTable(name = "especialidades_profesionales", joinColumns = @JoinColumn(name = "id_especialidad", referencedColumnName = "id_especialidad"), inverseJoinColumns = @JoinColumn(name = "id_profesional", referencedColumnName = "id_profesional"))
-    private Set<Profesional> profesionales = new HashSet<>();
 
 
     public Especialidad() {
@@ -48,11 +45,4 @@ public class Especialidad {
         this.nombre = nombre;
     }
 
-    public Set<Profesional> getProfesionales() {
-        return profesionales;
-    }
-
-    public void setProfesionales(Set<Profesional> profesionales) {
-        this.profesionales = profesionales;
-    }
 }
