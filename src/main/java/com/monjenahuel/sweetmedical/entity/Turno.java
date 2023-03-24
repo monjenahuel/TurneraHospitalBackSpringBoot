@@ -15,6 +15,12 @@ public class Turno {
     @Column(name = "id_turno")
     Integer id;
 
+    @Column(name = "id_paciente")
+    Integer idPaciente;
+
+    @Column(name = "id_especialidad_profesional")
+    Integer idEspProf;
+
 
     @NotNull
     @Column(name = "fecha_hora")
@@ -65,4 +71,20 @@ public class Turno {
         this.paciente = paciente;
     }
 
+    public void setIdPaciente(Integer idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+
+    public void setIdEspProf(Integer idEspProf) {
+        this.idEspProf = idEspProf;
+    }
+
+    public Turno() {
+    }
+
+    public Turno(Integer idPaciente, Integer idEspProf, LocalDateTime fechaHora) {
+        this.idPaciente = idPaciente;
+        this.idEspProf = idEspProf;
+        this.fechaHora = fechaHora;
+    }
 }
