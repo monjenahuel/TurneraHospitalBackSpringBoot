@@ -17,4 +17,7 @@ public interface PacienteServicio {
 
     public void eliminarPaciente(Integer id);
 
+    boolean existsById(Integer id);
+
+    boolean existsByDni(String dni);
 }

@@ -1,7 +1,12 @@
 package com.monjenahuel.sweetmedical.entity;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+@Data
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -10,7 +15,11 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario", nullable = false, unique = true)
     int idUsuario;
+    @NotEmpty(message = "el email no puede estar vacio")
+    @Email(message = "El email no tiene el formato correcto")
     String username;
+
+    @NotEmpty(message = "el password no puede estar vacio")
     String password;
 
     public  Usuario(){
@@ -21,27 +30,4 @@ public class Usuario {
         this.password = password;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

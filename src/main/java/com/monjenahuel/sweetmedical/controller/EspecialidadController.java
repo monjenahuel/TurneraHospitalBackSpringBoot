@@ -3,7 +3,6 @@ package com.monjenahuel.sweetmedical.controller;
 import com.monjenahuel.sweetmedical.entity.Especialidad;
 import com.monjenahuel.sweetmedical.repositorio.EspecialidadRepository;
 import com.monjenahuel.sweetmedical.servicio.EspecialidadServicio;
-import com.monjenahuel.sweetmedical.servicio.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;

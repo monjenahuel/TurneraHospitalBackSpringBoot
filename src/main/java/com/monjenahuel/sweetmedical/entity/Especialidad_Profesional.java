@@ -2,11 +2,15 @@ package com.monjenahuel.sweetmedical.entity;
 
 import com.sun.istack.NotNull;
 import jdk.jfr.Enabled;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "especialidades_profesionales")
 public class Especialidad_Profesional {
@@ -28,31 +32,8 @@ public class Especialidad_Profesional {
             updatable = false)
     private Profesional profesional;
 
-
-    public Especialidad_Profesional() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Especialidad getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(Especialidad especialidad) {
+    public Especialidad_Profesional(Especialidad especialidad, Profesional profesional) {
         this.especialidad = especialidad;
-    }
-
-    public Profesional getProfesional() {
-        return profesional;
-    }
-
-    public void setProfesional(Profesional profesional) {
         this.profesional = profesional;
     }
 }

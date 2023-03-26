@@ -1,86 +1,55 @@
 package com.monjenahuel.sweetmedical.entity;
 
 import com.monjenahuel.sweetmedical.servicio.EspecialidadServicio;
-import com.sun.istack.NotNull;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "turnos")
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Turno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_turno")
+    @Getter @Setter
     Integer id;
 
+    @Setter @Getter
+    @NotNull(message = "El id_paciente no puede estar vacio")
     @Column(name = "id_paciente")
     Integer idPaciente;
 
+    @Setter @Getter
+    @NotNull(message = "El id_especialidad_profesional no puede estar vacio")
     @Column(name = "id_especialidad_profesional")
     Integer idEspProf;
 
 
-    @NotNull
+    @Getter @Setter
+    @NotNull(message = "La fecha no puede estar vacia")
     @Column(name = "fecha_hora")
     LocalDateTime fechaHora;
 
-
+    @Getter @Setter
     @ManyToOne
     @JoinColumn(name="id_paciente",
             insertable = false,
             updatable = false)
     private Paciente paciente;
 
+    @Getter @Setter
     @ManyToOne
     @JoinColumn(name="id_especialidad_profesional",
             insertable = false,
             updatable = false)
     private Especialidad_Profesional especialidad_profesional;
-
-    public Especialidad_Profesional getEspecialidad_profesional() {
-        return especialidad_profesional;
-    }
-
-    public void setEspecialidad_profesional(Especialidad_Profesional especialidad_profesional) {
-        this.especialidad_profesional = especialidad_profesional;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
-    }
-
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
-    public void setIdPaciente(Integer idPaciente) {
-        this.idPaciente = idPaciente;
-    }
-
-    public void setIdEspProf(Integer idEspProf) {
-        this.idEspProf = idEspProf;
-    }
-
-    public Turno() {
-    }
 
     public Turno(Integer idPaciente, Integer idEspProf, LocalDateTime fechaHora) {
         this.idPaciente = idPaciente;

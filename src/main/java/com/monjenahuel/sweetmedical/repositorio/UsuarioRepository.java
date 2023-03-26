@@ -11,5 +11,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
 
 
     @Query("SELECT count(u) > 0 from Usuario u where u.username = ?1 and u.password = ?2")
-    boolean usuarioExiste(String username, String password);
+    boolean usuarioValido(String username, String password);
+
+    boolean existsByUsername(String email);
+
+
 }
