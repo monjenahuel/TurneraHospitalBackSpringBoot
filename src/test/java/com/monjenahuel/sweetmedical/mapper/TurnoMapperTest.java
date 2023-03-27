@@ -1,4 +1,4 @@
-package com.monjenahuel.sweetmedical.test;
+package com.monjenahuel.sweetmedical.mapper;
 
 
 import com.monjenahuel.sweetmedical.DTO.TurnoCreableDTO;

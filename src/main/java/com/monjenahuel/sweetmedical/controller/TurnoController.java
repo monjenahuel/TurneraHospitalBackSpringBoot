@@ -7,8 +7,6 @@ import com.monjenahuel.sweetmedical.entity.Turno;
 import com.monjenahuel.sweetmedical.exepction.NotFoundException;
 import com.monjenahuel.sweetmedical.servicio.TurnoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +40,7 @@ public class TurnoController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getTurnoByID(@PathVariable Integer id){
+    public ResponseEntity<?> getTurnoByID(@PathVariable Integer id) throws NotFoundException{
 
      TurnoDTO turnoResponse = mapper.TurnoATurnoDTO(servicio.getTurnoByID(id).orElseThrow(
              ()-> new NotFoundException("Turno no encontrado")
@@ -52,7 +50,7 @@ public class TurnoController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TurnoDTO> deleteTurnoByID(@PathVariable Integer id){
+    public ResponseEntity<TurnoDTO> deleteTurnoByID(@PathVariable Integer id) throws NotFoundException{
 
         Optional<Turno> turnoEliminado = servicio.eliminarTurnoByID(id);
 

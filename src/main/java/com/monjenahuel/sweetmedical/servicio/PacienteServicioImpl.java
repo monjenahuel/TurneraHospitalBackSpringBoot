@@ -2,6 +2,7 @@ package com.monjenahuel.sweetmedical.servicio;
 
 import com.monjenahuel.sweetmedical.entity.Paciente;
 import com.monjenahuel.sweetmedical.exepction.AlreadyExistException;
+import com.monjenahuel.sweetmedical.exepction.NotFoundException;
 import com.monjenahuel.sweetmedical.repositorio.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -48,12 +50,18 @@ public class PacienteServicioImpl implements PacienteServicio{
     @Transactional
     @Override
     public Paciente actualizarPaciente(Integer id, Paciente pxModificado) {
+
+        Optional<Paciente> pacienteConMismoDNI = repositorio.findByDni(pxModificado.getDni());
+
+        if(pacienteConMismoDNI.isPresent() && !Objects.equals(pacienteConMismoDNI.get().getId(),id)){
+            throw new AlreadyExistException("Paciente con DNI " + pxModificado.getDni() + " ya existe");
+        }
         if(repositorio.existsById(id)){
             pxModificado.setId(id);
             repositorio.save(pxModificado);
             return pxModificado;
         }else{
-            throw new RuntimeException("Paciente con id " + id + " no existe");
+            throw new NotFoundException("Paciente con id " + id + " no existe");
         }
     }
 

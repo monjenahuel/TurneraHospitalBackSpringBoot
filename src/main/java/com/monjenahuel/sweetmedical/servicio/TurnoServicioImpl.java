@@ -6,7 +6,6 @@ import com.monjenahuel.sweetmedical.entity.Turno;
 import com.monjenahuel.sweetmedical.exepction.AlreadyExistException;
 import com.monjenahuel.sweetmedical.exepction.NotFoundException;
 import com.monjenahuel.sweetmedical.repositorio.TurnoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +18,16 @@ import java.util.stream.Collectors;
 @Service
 public class TurnoServicioImpl implements TurnoServicio{
 
-    @Autowired
-    private TurnoMapper mapper;
+
+    private final TurnoMapper mapper;
 
     private final TurnoRepository repositorio;
 
 
-    public TurnoServicioImpl(TurnoRepository repositorio) {
+    public TurnoServicioImpl(TurnoMapper mapper, TurnoRepository repositorio) {
+        this.mapper = mapper;
         this.repositorio = repositorio;
     }
-
 
     @Override
     public List<Turno> getAllTurnos(){
@@ -57,12 +56,10 @@ public class TurnoServicioImpl implements TurnoServicio{
 
     @Transactional
     @Override
-    public Optional<Turno> eliminarTurnoByID(Integer id) {
+    public Optional<Turno> eliminarTurnoByID(Integer id) throws NotFoundException{
         if (repositorio.existsById(id)) {
             Optional<Turno> turnoAEliminar = repositorio.findById(id);
-
             repositorio.deleteById(id);
-
             return turnoAEliminar;
         } else {
             throw new NotFoundException("Turno no encontrado");
