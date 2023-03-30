@@ -1,10 +1,10 @@
 package com.monjenahuel.sweetmedical.servicio;
 
-import com.monjenahuel.sweetmedical.DTO.TurnoCreableDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoConIdDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoDTO;
 import com.monjenahuel.sweetmedical.DTO.mapper.TurnoMapper;
 import com.monjenahuel.sweetmedical.entity.Turno;
-import com.monjenahuel.sweetmedical.exepction.AlreadyExistException;
-import com.monjenahuel.sweetmedical.exepction.NotFoundException;
+import com.monjenahuel.sweetmedical.exception.NotFoundException;
 import com.monjenahuel.sweetmedical.repositorio.TurnoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -68,30 +68,24 @@ public class TurnoServicioImpl implements TurnoServicio{
 
     @Transactional
     @Override
-    public TurnoCreableDTO crearNuevoTurno(TurnoCreableDTO turnoCreable) {
+    public Turno crearNuevoTurno(TurnoDTO turno) {
+        Turno turnoAGuardar = mapper.TurnoDTOATurno(turno);
 
-        Turno turno = mapper.TurnoCreableDTOATurno(turnoCreable);
-
-        if (turno.getId() != null && repositorio.existsById(turno.getId()))  {
-            throw new AlreadyExistException("Ya existe un turno con ese ID");
-        }
-
-        TurnoCreableDTO turnoResponse = mapper.TurnoATurnoCreableDTO(repositorio.save(turno));
+        Turno turnoResponse = repositorio.save(turnoAGuardar);
 
         return turnoResponse;
-
     }
+
     @Transactional
     @Override
-    public TurnoCreableDTO actualizarTurno(Integer id, TurnoCreableDTO turnoCreable) {
+    public Turno actualizarTurno(Integer id, TurnoConIdDTO turnoActualizado) {
         if(repositorio.existsById(id)){
 
-            Turno turno = mapper.TurnoCreableDTOATurno(turnoCreable);
-            turno.setId(id);
+            Turno turnoAGuardar = mapper.TurnoDTOconIdATurno(turnoActualizado);
 
-            repositorio.save(turno);
-            turnoCreable.setId_turno(id);
-            return turnoCreable;
+            turnoAGuardar.setId(id);
+
+            return repositorio.save(turnoAGuardar);
 
 
         }else{

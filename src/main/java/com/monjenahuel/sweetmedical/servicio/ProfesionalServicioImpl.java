@@ -1,19 +1,24 @@
 package com.monjenahuel.sweetmedical.servicio;
 
-import com.monjenahuel.sweetmedical.entity.Especialidad_Profesional;
+//import com.monjenahuel.sweetmedical.entity.Especialidad_Profesional;
+import com.monjenahuel.sweetmedical.entity.Especialidad;
 import com.monjenahuel.sweetmedical.entity.Profesional;
+import com.monjenahuel.sweetmedical.exception.NotFoundException;
+import com.monjenahuel.sweetmedical.repositorio.EspecialidadRepository;
 import com.monjenahuel.sweetmedical.repositorio.ProfesionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ProfesionalServicioImpl implements ProfesionalServicio {
 
     @Autowired
     private ProfesionalRepository repositorio;
+
+    @Autowired
+    private EspecialidadRepository EspRepo;
 
     @Override
     public List<Profesional> getAllProfesionales() {
@@ -27,10 +32,15 @@ public class ProfesionalServicioImpl implements ProfesionalServicio {
 
     @Override
     public List<Profesional> getProfesionalesConEspID(Integer id){
-        List<Especialidad_Profesional> EspProf = repositorio.profesionalesByEspecialidad(id);
+        Optional<Especialidad> esp = EspRepo.findById(id);
 
-        List<Profesional> profesionales = EspProf.stream().map(obj -> obj.getProfesional()).collect(Collectors.toList());
+        if(esp.isPresent()){
+            List<Profesional> profesionales = esp.get().getProfesionales();
+            return profesionales;
+        }else{
+            throw new NotFoundException("No se encontró la especialidad indicada");
+        }
 
-        return profesionales;
+
     }
 }

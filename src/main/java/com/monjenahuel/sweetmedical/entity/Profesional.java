@@ -1,6 +1,9 @@
 package com.monjenahuel.sweetmedical.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -10,6 +13,7 @@ import org.springframework.data.relational.core.sql.In;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -31,17 +35,17 @@ public class Profesional {
 
     String matricula;
 
-    @OneToMany(mappedBy = "profesional")
-    @JsonBackReference //Evita la recursion cediendo el atributo a la otra parte
-    private Set<Especialidad_Profesional> especialidades = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinTable(name = "especialidades_profesionales",
+            joinColumns = @JoinColumn(name = "id_profesional"),
+            inverseJoinColumns = @JoinColumn(name = "id_especialidad"))
+    private List<Especialidad> especialidades;
 
     public Profesional(String nombre, String apellido, String matricula){
         this.nombre = nombre;
         this.apellido = apellido;
         this.matricula = matricula;
     }
-
-
-
 
 }

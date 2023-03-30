@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.sql.In;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;

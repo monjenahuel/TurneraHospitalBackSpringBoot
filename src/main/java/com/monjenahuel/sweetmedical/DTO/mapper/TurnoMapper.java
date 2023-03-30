@@ -1,33 +1,31 @@
 package com.monjenahuel.sweetmedical.DTO.mapper;
 
-import com.monjenahuel.sweetmedical.DTO.TurnoCreableDTO;
+import com.monjenahuel.sweetmedical.DTO.EspecialidadDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoConIdDTO;
 import com.monjenahuel.sweetmedical.DTO.TurnoDTO;
+import com.monjenahuel.sweetmedical.entity.Especialidad;
 import com.monjenahuel.sweetmedical.entity.Turno;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TurnoMapper {
 
-    @Mappings({
-            @Mapping(source = "id", target = "id_turno"),
-            @Mapping(source = "idPaciente", target = "id_paciente"),
-            @Mapping(source = "idEspProf", target = "id_especialidad_profesional"),
-            @Mapping(source = "fechaHora", target = "fecha_hora"),
-    })
-
-    TurnoCreableDTO TurnoATurnoCreableDTO(Turno turno);
-
-    @Mappings({
-            @Mapping(source = "id_turno", target = "id"),
-            @Mapping(source = "id_paciente", target = "idPaciente"),
-            @Mapping(source = "id_especialidad_profesional", target = "idEspProf"),
-            @Mapping(source = "fecha_hora", target = "fechaHora")
-    })
-    Turno TurnoCreableDTOATurno(TurnoCreableDTO turnoCreableDTO);
-
     Turno TurnoDTOATurno(TurnoDTO turnoDTO);
 
     TurnoDTO TurnoATurnoDTO(Turno turno);
+
+    List<TurnoDTO> mapToDTOList(List<Turno> turnos);
+
+    List<Turno> mapToEntityList(List<TurnoDTO> turnosDTO);
+
+    Turno TurnoDTOconIdATurno(TurnoConIdDTO turnoConIdDTO);
+
+    TurnoConIdDTO TurnoATurnoDTOconId(Turno turno);
+
+    List<TurnoConIdDTO> mapToDTOwithIDList(List<Turno> turnos);
+
+    List<Turno> mapwithIDToEntityList(List<TurnoConIdDTO> turnosConIdDTO);
+
 }

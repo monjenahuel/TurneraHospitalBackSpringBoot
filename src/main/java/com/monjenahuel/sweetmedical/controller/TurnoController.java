@@ -1,10 +1,10 @@
 package com.monjenahuel.sweetmedical.controller;
 
-import com.monjenahuel.sweetmedical.DTO.TurnoCreableDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoConIdDTO;
 import com.monjenahuel.sweetmedical.DTO.TurnoDTO;
 import com.monjenahuel.sweetmedical.DTO.mapper.TurnoMapper;
 import com.monjenahuel.sweetmedical.entity.Turno;
-import com.monjenahuel.sweetmedical.exepction.NotFoundException;
+import com.monjenahuel.sweetmedical.exception.NotFoundException;
 import com.monjenahuel.sweetmedical.servicio.TurnoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/turnos")
@@ -29,22 +28,30 @@ public class TurnoController {
     }
 
     @GetMapping
-    public List<Turno> getTurnosVigentesOrderByDateASC(){
-        return  servicio.getTurnosVigentesOrderByDateASC();
+    public List<TurnoConIdDTO> getTurnosVigentesOrderByDateASC(){
+
+        List<Turno> listaTurnosOrdenada = servicio.getTurnosVigentesOrderByDateASC();
+
+        List<TurnoConIdDTO> listaResponse = mapper.mapToDTOwithIDList(listaTurnosOrdenada);
+
+        return listaResponse;
     }
 
     @GetMapping("/history")
-    public List<Turno> historialDeTurnos(){
-        return  servicio.getAllTurnosOrderByDateASC();
+    public List<TurnoConIdDTO> historialDeTurnos(){
+          List<Turno> listaTurnos = servicio.getAllTurnosOrderByDateASC();
+          List<TurnoConIdDTO> listaResponse = mapper.mapToDTOwithIDList(listaTurnos);
+        return  listaResponse;
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<?> getTurnoByID(@PathVariable Integer id) throws NotFoundException{
+    public ResponseEntity<TurnoConIdDTO> getTurnoByID(@PathVariable Integer id) throws NotFoundException{
 
-     TurnoDTO turnoResponse = mapper.TurnoATurnoDTO(servicio.getTurnoByID(id).orElseThrow(
+     Turno turnoEncontrado = servicio.getTurnoByID(id).orElseThrow(
              ()-> new NotFoundException("Turno no encontrado")
-     ));
+     );
+
+        TurnoConIdDTO turnoResponse = mapper.TurnoATurnoDTOconId(turnoEncontrado);
         return new ResponseEntity<>(turnoResponse,HttpStatus.OK);
     }
 
@@ -52,29 +59,33 @@ public class TurnoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<TurnoDTO> deleteTurnoByID(@PathVariable Integer id) throws NotFoundException{
 
-        Optional<Turno> turnoEliminado = servicio.eliminarTurnoByID(id);
+        Turno turnoEliminado = servicio.eliminarTurnoByID(id).orElseThrow(()-> new NotFoundException("Turno no encontrado"));
 
-        TurnoDTO turnoResponse = mapper.TurnoATurnoDTO(turnoEliminado.get());
+        TurnoDTO turnoResponse = mapper.TurnoATurnoDTO(turnoEliminado);
 
         return new ResponseEntity<TurnoDTO>(turnoResponse,HttpStatus.OK);
     }
 
 
     @PostMapping
-    public ResponseEntity<?> createTurno(@Valid @RequestBody TurnoCreableDTO turnoCreable){
+    public ResponseEntity<TurnoDTO> createTurno(@Valid @RequestBody TurnoDTO turnoNuevo){
 
-        TurnoCreableDTO turnoResponse = servicio.crearNuevoTurno(turnoCreable);
+        Turno turnoCreado = servicio.crearNuevoTurno(turnoNuevo);
+
+        TurnoDTO turnoResponse = mapper.TurnoATurnoDTO(turnoCreado);
 
         return new ResponseEntity<>(turnoResponse,null,HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarTurno(@PathVariable Integer id,@Valid @RequestBody TurnoCreableDTO turnoCreable){
+    public ResponseEntity<TurnoDTO> actualizarTurno(@PathVariable Integer id,@Valid @RequestBody TurnoConIdDTO turnoActualizado){
 
-        TurnoCreableDTO turnoActualizado = servicio.actualizarTurno(id,turnoCreable);
+        Turno turnoActualizadoConID = servicio.actualizarTurno(id,turnoActualizado);
+
+        TurnoDTO response = mapper.TurnoATurnoDTO(turnoActualizadoConID);
         
-        return new ResponseEntity<>(turnoActualizado,null,HttpStatus.OK);
+        return new ResponseEntity<>(response,null,HttpStatus.OK);
 
     }
 

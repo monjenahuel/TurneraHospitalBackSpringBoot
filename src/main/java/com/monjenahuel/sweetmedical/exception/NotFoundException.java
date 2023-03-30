@@ -1,4 +1,4 @@
-package com.monjenahuel.sweetmedical.exepction;
+package com.monjenahuel.sweetmedical.exception;
 
 public class NotFoundException extends RuntimeException{
     public NotFoundException(String mensaje){

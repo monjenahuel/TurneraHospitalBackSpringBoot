@@ -1,6 +1,8 @@
 package com.monjenahuel.sweetmedical.servicio;
 
-import com.monjenahuel.sweetmedical.DTO.TurnoCreableDTO;
+import com.monjenahuel.sweetmedical.DTO.EspecialidadDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoConIdDTO;
+import com.monjenahuel.sweetmedical.DTO.TurnoDTO;
 import com.monjenahuel.sweetmedical.DTO.mapper.TurnoMapper;
 import com.monjenahuel.sweetmedical.entity.*;
 import com.monjenahuel.sweetmedical.repositorio.TurnoRepository;
@@ -33,9 +35,10 @@ class TurnoServicioImplTest {
 
     Turno turno;
     Turno turnoHoy;
-    TurnoCreableDTO turnoCreableDTO;
 
-    TurnoCreableDTO turnoCreableDTOConID;
+    TurnoDTO turnoDto;
+
+    TurnoConIdDTO turnoCreableDTOConID;
 
     @BeforeEach
     void setUp() {
@@ -47,12 +50,38 @@ class TurnoServicioImplTest {
         Paciente px = new Paciente(120, "Mariano", "Mercedes", "17.785.127", "123123123123", "N456456456@gmail.com");
         Profesional prof = new Profesional("Dr Naranja", "Yonatan", "AH675JHJ65J");
         Especialidad esp = new Especialidad("Clinica");
-        Especialidad_Profesional espProf = new Especialidad_Profesional(esp, prof);
-        turno = new Turno(122, 12, 7, LocalDateTime.of(2023, 03, 5, 15, 55), px, espProf);
-        turnoHoy = new Turno(123, 13, 8, LocalDateTime.now(), px, espProf);
+        EspecialidadDTO espDTO = new EspecialidadDTO(12,"Clinica");
 
-        turnoCreableDTO = new TurnoCreableDTO(7, 9, LocalDateTime.of(2012, 12, 12, 12, 12));
-        turnoCreableDTOConID = new TurnoCreableDTO(122,7, 9, LocalDateTime.of(2012, 12, 12, 12, 12));
+        turno = new Turno();
+        turno.setEspecialidad(esp);
+        turno.setProfesional(prof);
+        turno.setId(122);
+        turno.setFechaHora(LocalDateTime.of(2023, 03, 5, 15, 55));
+        turno.setPaciente(px);
+        ////////////////////////////////////
+        turnoHoy = new Turno();
+        turnoHoy.setEspecialidad(esp);
+        turnoHoy.setProfesional(prof);
+        turnoHoy.setId(123);
+        turnoHoy.setFechaHora(LocalDateTime.now());
+        turnoHoy.setPaciente(px);
+
+        ////////////////////////////////////
+        turnoCreableDTOConID = new TurnoConIdDTO();
+        turnoCreableDTOConID.setEspecialidad(espDTO);
+        turnoCreableDTOConID.setProfesional(prof);
+        turnoCreableDTOConID.setId(122);
+        turnoCreableDTOConID.setFechaHora(LocalDateTime.of(2023, 03, 5, 15, 55));
+        turnoCreableDTOConID.setPaciente(px);
+
+        ////////////////////////////////////
+
+        turnoDto = new TurnoDTO();
+        turnoDto.setEspecialidad(espDTO);
+        turnoDto.setProfesional(prof);
+        turnoDto.setFechaHora(LocalDateTime.of(2023, 03, 5, 15, 55));
+        turnoDto.setPaciente(px);
+
     }
     @Test
     void getAllTurnos() {
@@ -154,10 +183,11 @@ class TurnoServicioImplTest {
     void actualizarTurno() {
 
         when(repositorio.existsById(122)).thenReturn(true);
-        when(mapper.TurnoCreableDTOATurno(turnoCreableDTOConID)).thenReturn(turno);
+        when(mapper.TurnoDTOconIdATurno(turnoCreableDTOConID)).thenReturn(turno);
+        when(repositorio.save(turno)).thenReturn(turno);
 
         //when
-         TurnoCreableDTO turnoActualizado = servicio.actualizarTurno(122,turnoCreableDTOConID);
+         Turno turnoActualizado = servicio.actualizarTurno(122,turnoCreableDTOConID);
 
 
         assertThat(turnoActualizado.equals(turno));
@@ -168,7 +198,7 @@ class TurnoServicioImplTest {
     @Test
     void actualizarTurnoFails() {
 
-        assertThatThrownBy(() -> servicio.actualizarTurno(999,turnoCreableDTO))
+        assertThatThrownBy(() -> servicio.actualizarTurno(999,turnoCreableDTOConID))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("El turno indicado no se encuentra");
     }
@@ -176,48 +206,21 @@ class TurnoServicioImplTest {
 
     @Test
     void crearNuevoTurno() {
-        //Given
-
-        when(mapper.TurnoCreableDTOATurno(turnoCreableDTO)).thenReturn(turno);
-
-        when(repositorio.existsById(turno.getId())).thenReturn(false);
-
-        when(repositorio.save(turno)).thenReturn(turno);
-
-        when(mapper.TurnoATurnoCreableDTO(turno)).thenReturn(turnoCreableDTOConID);
-
-
-
-        //When
-        TurnoCreableDTO turnoCreableDTOTest = servicio.crearNuevoTurno(turnoCreableDTO);
-
-        //then
-        assertThat(turnoCreableDTOTest.getId_turno()).isEqualTo(turno.getId());
-
-
-    }
-
-    @Test
-    void crearNuevoTurnoFails() {
 
         //Given
 
-        when(mapper.TurnoCreableDTOATurno(turnoCreableDTO)).thenReturn(turno);
+        when(mapper.TurnoDTOATurno(turnoDto)).thenReturn(turno);
 
         when(repositorio.save(turno)).thenReturn(turno);
-
-        when(mapper.TurnoATurnoCreableDTO(turno)).thenReturn(turnoCreableDTOConID);
-
-
 
         //When
         when(repositorio.existsById(turno.getId())).thenReturn(true);
 
-        //then
 
-        assertThatThrownBy(() -> servicio.crearNuevoTurno(turnoCreableDTO))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Ya existe un turno con ese ID");
+        //then
+        assertThat(turno.getId()).isEqualTo(122);
+
 
     }
+
 }

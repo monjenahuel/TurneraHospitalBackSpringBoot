@@ -15,6 +15,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_usuario", nullable = false, unique = true)
     int idUsuario;
+    //Accesos
     @NotEmpty(message = "el email no puede estar vacio")
     @Email(message = "El email no tiene el formato correcto")
     String username;

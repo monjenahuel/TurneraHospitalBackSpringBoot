@@ -14,8 +14,8 @@ public interface EspecialidadRepository extends JpaRepository<Especialidad,Integ
     @Query("from Especialidad e where e.nombre = ?1")
     Optional<Especialidad> buscarPorNombre(String nombre);
 
-    @Query(value = "select especialidades.id_especialidad, especialidades.nombre from especialidades inner join especialidades_profesionales as joinTable " +
-            "ON especialidades.id_especialidad = joinTable.id_especialidad " +
-            "where joinTable.id_especialidades_profesional = :id",nativeQuery = true)
-    Especialidad especialidadByJoinTableID(@Param("id") Integer id);
+//    @Query(value = "select especialidades.id_especialidad, especialidades.nombre from especialidades inner join especialidades_profesionales as joinTable " +
+//            "ON especialidades.id_especialidad = joinTable.id_especialidad " +
+//            "where joinTable.id_especialidades_profesional = :id",nativeQuery = true)
+//    Especialidad especialidadByJoinTableID(@Param("id") Integer id);
 }

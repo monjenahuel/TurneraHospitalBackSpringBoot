@@ -1,12 +1,10 @@
 package com.monjenahuel.sweetmedical.servicio;
 
 import com.monjenahuel.sweetmedical.entity.Paciente;
-import com.monjenahuel.sweetmedical.exepction.AlreadyExistException;
-import com.monjenahuel.sweetmedical.exepction.NotFoundException;
+import com.monjenahuel.sweetmedical.exception.AlreadyExistException;
+import com.monjenahuel.sweetmedical.exception.NotFoundException;
 import com.monjenahuel.sweetmedical.repositorio.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

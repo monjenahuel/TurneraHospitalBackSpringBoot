@@ -5,6 +5,7 @@ import com.monjenahuel.sweetmedical.repositorio.EspecialidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -13,7 +14,7 @@ public class EspecialidadServicioImpl implements EspecialidadServicio{
     @Autowired
     private EspecialidadRepository repositorio;
 
-
+    @Transactional
     @Override
     public List<Especialidad> getAllEspecialidades(){
         return repositorio.findAll();
@@ -31,7 +32,8 @@ public class EspecialidadServicioImpl implements EspecialidadServicio{
 
     @Override
     public Especialidad getEspecialidadByIDIntermedia(Integer id) {
-        return repositorio.especialidadByJoinTableID(id);
+//        return repositorio.especialidadByJoinTableID(id);
+        return null;
     }
 
 

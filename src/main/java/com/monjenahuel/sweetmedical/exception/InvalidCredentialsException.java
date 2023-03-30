@@ -1,4 +1,4 @@
-package com.monjenahuel.sweetmedical.exepction;
+package com.monjenahuel.sweetmedical.exception;
 
 public class InvalidCredentialsException extends RuntimeException{
     public InvalidCredentialsException(String mensaje){

@@ -1,7 +1,6 @@
 package com.monjenahuel.sweetmedical.repositorio;
 
 import com.monjenahuel.sweetmedical.entity.Especialidad;
-import com.monjenahuel.sweetmedical.entity.Especialidad_Profesional;
 import com.monjenahuel.sweetmedical.entity.Profesional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +15,7 @@ import java.util.Set;
 @Repository
 public interface ProfesionalRepository extends JpaRepository<Profesional,Integer> {
 
-    @Query("FROM Especialidad_Profesional p where p.especialidad.id = :id")
-    List<Especialidad_Profesional> profesionalesByEspecialidad(@Param("id") Integer idEspecialidad);
+//    @Query("FROM Especialidad_Profesional p where p.especialidad.id = :id")
+//    List<Especialidad_Profesional> profesionalesByEspecialidad(@Param("id") Integer idEspecialidad);
 
 }

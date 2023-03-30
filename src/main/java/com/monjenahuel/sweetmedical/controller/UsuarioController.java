@@ -25,11 +25,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioMapper mapper;
 
-    @GetMapping
-    public List<Usuario> usuarios() {
-        return this.service.getAllUsuarios();
-    }
-
     @PostMapping
     public ResponseEntity<?> add(@Valid @RequestBody Usuario usuarioAAgregar) {
 

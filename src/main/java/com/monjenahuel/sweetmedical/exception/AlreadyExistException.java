@@ -1,4 +1,4 @@
-package com.monjenahuel.sweetmedical.exepction;
+package com.monjenahuel.sweetmedical.exception;
 
 public class AlreadyExistException extends RuntimeException{
     public AlreadyExistException(String mensaje){
